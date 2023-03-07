@@ -1,21 +1,12 @@
-import numpy as np
-from flask import Flask, request
-from werkzeug.utils import secure_filename
-from main import get_prediction
-import os
+from flask import Flask, Blueprint, request
 from plyfile import PlyData
 import numpy as np
+from main import get_prediction
 
+inference_bp = Blueprint('inference', __name__)
 
-UPLOAD_FOLDER = 'teeth/'
-
-# Create an app object using the Flask class
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# predict
-@app.route('/predict', methods=['POST'])
-def submit_file():
+@inference_bp.route('/predict', methods=['POST'])
+def predict():
     result = {}
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -34,10 +25,3 @@ def submit_file():
             # full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             result =  {'result': 'Your tooth wear grade is: {}'.format(label)}
     return result
-
-
-if __name__ == "__main__":
-    # Define port so we can map container port to localhost
-    # port = int(os.environ.get('PORT', 5000)) 
-    # app.run(host='0.0.0.0', port=port) 
-    app.run(host="0.0.0.0", port=8080)
