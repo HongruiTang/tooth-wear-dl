@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from plyfile import PlyData
-from model.model import PointNetReg
+from inference_module.model.model import PointNetReg
 
 N_POINTS = 2048
 
