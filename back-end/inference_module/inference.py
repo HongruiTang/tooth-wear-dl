@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, request
 from plyfile import PlyData
 import numpy as np
-from main import get_prediction
+from inference_module.main import get_prediction
 
 inference_bp = Blueprint('inference', __name__)
 
