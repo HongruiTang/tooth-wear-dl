@@ -19,7 +19,7 @@ def encrypt(originalPassword):
     encrypted = base64.b64encode(originalPassword.encode("utf-8"))
     return encrypted
 
-@dentist_bp.route('/dentist/signin', methods=['POST'])
+@dentist_bp.route('signin', methods=['POST'])
 def dentist_signin():
     data = request.json
     usernameSignIn = data['username']
