@@ -1,6 +1,7 @@
 import numpy as np
 from flask import Flask, Blueprint, request
 from inference_module.inference import inference_bp
+from dentist_module.dentist import dentist_bp
 from werkzeug.utils import secure_filename
 import os
 
@@ -12,7 +13,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.register_blueprint(inference_bp, url_prefix='/inference')
-app.register_blueprint(inference_bp, url_prefix='/dentist')
+app.register_blueprint(dentist_bp, url_prefix='/dentist')
 
 
 if __name__ == "__main__":
