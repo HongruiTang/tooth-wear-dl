@@ -94,3 +94,29 @@ def dentist_signin():
     
     return result
 
+@dentist_bp.route('/signup', methods=['POST'])
+def dentist_signup():
+    data = request.json
+    username = data['username']
+    password = data['password']
+    confirm_password = data['confirm_password']
+    encrypted = data['encrypted']
+
+    main(dbFolder)
+    conn = create_connection(dbFolder)
+
+    result = {}
+    if password == confirm_password:
+        if not conn.cursor().execute("INSERT INTO Dentists (DENTIST_USERNAME, DENTIST_PASSWORD) VALUES (?,?)", (username, encrypted)):
+            result = {'result': 'fail'}
+        else:
+            conn.commit()
+            crsr = conn.cursor()
+            crsr.execute("SELECT * FROM Dentists")
+            result = {'result': 'success'}
+    else:
+        result = {'result': 'invalid'}
+    return result
+             
+
+
