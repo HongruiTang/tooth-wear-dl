@@ -93,7 +93,7 @@ def add_patient():
         '{brushingMethod}', '{brushingFrequency}', '{brushingTiming}', '{alocholIntake}', '{stressLevel}', 
         '{sleepApnoea}', '{snoringHabit}', '{exercise}', '{drugUse}', '{upperScan}', '{lowerScan}', '{sextantScan}')
         """
-    result = {}
+    result = {'result': ''}
     if not conn.cursor().execute(insert_patient_data_sql):
         result = {'result': 'fail'}
     else:
