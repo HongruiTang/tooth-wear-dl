@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request
+from flask import Blueprint, request
 import sqlite3
 from sqlite3 import Error
 
@@ -98,6 +98,17 @@ def add_patient():
         result = {'result': 'fail'}
     else:
         conn.commit()
+    return result
+
+@patient_bp.route('/delete', methods=['POST'])
+def delete_patient():
+    conn = create_connection(dbFolder)
+    data = request.json
+    patientID = data['id']
+    toExecute = "DELETE FROM Patients WHERE PATIENT_ID = :id"
+    crsr = conn.cursor()
+    crsr.execute(toExecute, {"id": patientID})
+    conn.commit()
         
 
 @patient_bp.route('/number', methods=['GET'])

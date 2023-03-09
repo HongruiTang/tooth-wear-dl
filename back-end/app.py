@@ -1,4 +1,3 @@
-import numpy as np
 from flask import Flask, Blueprint, request
 from inference_module.inference import inference_bp
 from dentist_module.dentist import dentist_bp
