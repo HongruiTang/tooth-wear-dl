@@ -15,6 +15,13 @@ def create_connection(db_file):
             print(e)
         return conn
 
+def create_table(conn, create_table_sql):
+        try:
+            c = conn.cursor()
+            c.execute(create_table_sql)
+        except Error as e:
+            print(e)
+
 def main(dbFolder):
         create_patient_table = """ CREATE TABLE IF NOT EXISTS Patients (
                                     PATIENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
