@@ -100,7 +100,7 @@ def dentist_signup():
     username = data['username']
     password = data['password']
     confirm_password = data['confirm_password']
-    encrypted = data['encrypted']
+    encrypted = encrypt(password)
 
     main(dbFolder)
     conn = create_connection(dbFolder)
