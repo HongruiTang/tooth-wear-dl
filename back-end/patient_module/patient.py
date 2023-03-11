@@ -40,9 +40,9 @@ def main(dbFolder):
                                     PATIENT_SNORING_HABIT TEXT,
                                     PATIENT_EXERCISE TEXT,
                                     PATIENT_DRUG_USE TEXT,
-                                    PATIENT_UPPER_JAW_SCAN TEXT,
-                                    PATIENT_LOWER_JAW_SCAN TEXT,
-                                    PATIENT_SEXTANT_SCAN TEXT
+                                    PATIENT_UPPER_JAW_SCAN BLOB,
+                                    PATIENT_LOWER_JAW_SCAN BLOB,
+                                    PATIENT_SEXTANT_SCAN BLOB
                                 );
                             """
         create_dentist_table = """ CREATE TABLE IF NOT EXISTS Dentists (
