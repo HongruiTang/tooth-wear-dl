@@ -1,5 +1,7 @@
 from flask import Blueprint, request
 import sqlite3
+import base64
+import json
 from sqlite3 import Error
 
 patient_bp = Blueprint('patient', __name__)
@@ -79,22 +81,13 @@ def add_patient():
     snoringHabit = data['snoringHabit']
     exercise = data['exercise']
     drugUse = data['drugUse']
-    upperScan = data['upperScan']
-    lowerScan = data['lowerScan']
-    sextantScan = data['sextantScan']
+    upperScan = json.dumps(data['upperScan']).encode('utf-8')
+    lowerScan = json.dumps(data['lowerScan']).encode('utf-8')
+    sextantScan = json.dumps(data['sextantScan']).encode('utf-8')
 
-    insert_patient_data_sql = f"""
-        INSERT INTO Patients (PATIENT_NAME, PATIENT_AGE, PATIENT_OCCUPATION, PATIENT_MEDICAL_HISTORY, 
-        PATIENT_PAIN_COMPLAINT, PATIENT_FINANCIAL_RESOURCES, PATIENT_BRUSHING_METHOD, PATIENT_BRUSHING_FREQUENCY,
-        PATIENT_BRUSHING_TIMING, PATIENT_ALCOHOL_INTAKE, PATIENT_STRESS_LEVEL, PATIENT_SLEEP_APNOEA, 
-        PATIENT_SNORING_HABIT, PATIENT_EXERCISE, PATIENT_DRUG_USE, PATIENT_UPPER_JAW_SCAN, PATIENT_LOWER_JAW_SCAN, 
-        PATIENT_SEXTANT_SCAN) 
-        VALUES ('{name}', '{age}', '{occupation}', '{medicalHistory}', '{painComplaint}', '{financialResources}', 
-        '{brushingMethod}', '{brushingFrequency}', '{brushingTiming}', '{alocholIntake}', '{stressLevel}', 
-        '{sleepApnoea}', '{snoringHabit}', '{exercise}', '{drugUse}', '{upperScan}', '{lowerScan}', '{sextantScan}')
-        """
     result = {'result': ''}
-    if not conn.cursor().execute(insert_patient_data_sql):
+    crsr = conn.cursor()
+    if not crsr.execute('INSERT INTO Patients (PATIENT_NAME, PATIENT_AGE, PATIENT_OCCUPATION, PATIENT_MEDICAL_HISTORY, PATIENT_PAIN_COMPLAINT, PATIENT_FINANCIAL_RESOURCES, PATIENT_BRUSHING_METHOD, PATIENT_BRUSHING_FREQUENCY,PATIENT_BRUSHING_TIMING, PATIENT_ALCOHOL_INTAKE, PATIENT_STRESS_LEVEL, PATIENT_SLEEP_APNOEA, PATIENT_SNORING_HABIT, PATIENT_EXERCISE, PATIENT_DRUG_USE, PATIENT_UPPER_JAW_SCAN, PATIENT_LOWER_JAW_SCAN, PATIENT_SEXTANT_SCAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (name, age, occupation, medicalHistory, painComplaint, financialResources, brushingMethod, brushingFrequency, brushingTiming, alocholIntake, stressLevel, sleepApnoea, snoringHabit, exercise, drugUse, upperScan, lowerScan, sextantScan)):
         result = {'result': 'fail'}
     else:
         conn.commit()
@@ -119,6 +112,8 @@ def get_patient_number():
     crsr.execute(toExecute)
 
     numberOfPatients = crsr.fetchall()[0]
+    if numberOfPatients[0] is None:
+        return {'num': 0}
 
     return {'num': numberOfPatients[0]}
 
@@ -126,7 +121,7 @@ def get_patient_number():
 def get_all_patients():
     conn = create_connection(dbFolder)
     get_all_patients = """
-                        SELECT * FROM Patients;           
+                        SELECT PATIENT_ID, PATIENT_NAME, PATIENT_AGE, PATIENT_OCCUPATION, PATIENT_MEDICAL_HISTORY, PATIENT_PAIN_COMPLAINT, PATIENT_FINANCIAL_RESOURCES, PATIENT_BRUSHING_METHOD, PATIENT_BRUSHING_FREQUENCY,PATIENT_BRUSHING_TIMING, PATIENT_ALCOHOL_INTAKE, PATIENT_STRESS_LEVEL, PATIENT_SLEEP_APNOEA, PATIENT_SNORING_HABIT, PATIENT_EXERCISE, PATIENT_DRUG_USE FROM Patients;           
                        """
     try:
         crsr = conn.cursor()
@@ -145,5 +140,7 @@ def view():
     crsr = conn.cursor()
     crsr.execute(toExecute, {"id": patientID})
 
-    upper_path, lower_path = crsr.fetchall()[0]
-    return {'upper': upper_path, 'lower': lower_path}
+    upper_file, lower_file = crsr.fetchall()[0]
+    upper_file = json.loads(upper_file.decode('utf-8'))
+    lower_file = json.loads(lower_file.decode('utf-8'))
+    return {'upper': upper_file, 'lower': lower_file}
