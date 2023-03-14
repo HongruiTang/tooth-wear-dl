@@ -65,6 +65,7 @@ def main(dbFolder):
 def add_patient():
     conn = create_connection(dbFolder)
     data = request.json
+    print(data)
 
     name = data['name']
     age = data['age']
