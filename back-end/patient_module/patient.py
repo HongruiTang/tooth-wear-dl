@@ -139,6 +139,7 @@ def view():
     toExecute = "SELECT PATIENT_UPPER_JAW_SCAN, PATIENT_LOWER_JAW_SCAN FROM Patients WHERE PATIENT_ID = :id"
     crsr = conn.cursor()
     crsr.execute(toExecute, {"id": patientID})
+    print(crsr.fetchall()[0])
 
     upper_file, lower_file = crsr.fetchall()[0]
     upper_file = base64.b64encode(upper_file).decode('utf-8')
