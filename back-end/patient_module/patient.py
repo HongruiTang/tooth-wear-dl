@@ -81,10 +81,9 @@ def add_patient():
     snoringHabit = data['snoringHabit']
     exercise = data['exercise']
     drugUse = data['drugUse']
-    upperScan = request.files['upperScan']
-    lowerScan = request.files['lowerScan']
-    sextantScan = request.files['sextantScan']
-    print(upperScan)
+    upperScan = base64.b64decode(data['upperScan'])
+    lowerScan = base64.b64decode(data['lowerScan'])
+    sextantScan = base64.b64decode(data['sextantScan'])
 
     result = {'result': ''}
     crsr = conn.cursor()
@@ -140,9 +139,9 @@ def view():
     toExecute = "SELECT PATIENT_UPPER_JAW_SCAN, PATIENT_LOWER_JAW_SCAN FROM Patients WHERE PATIENT_ID = :id"
     crsr = conn.cursor()
     crsr.execute(toExecute, {"id": patientID})
-    print(crsr.fetchall()[0])
+    # print(crsr.fetchall()[0])
 
-    upper_file, lower_file = crsr.fetchall()[0]
+    upper_file, lower_file = crsr.fetchone()
     upper_file = base64.b64encode(upper_file).decode('utf-8')
     lower_file = base64.b64encode(lower_file).decode('utf-8')
 
