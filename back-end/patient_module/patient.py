@@ -87,6 +87,8 @@ def add_patient():
     upperScan = request.files['upperScan']
     lowerScan = request.files['lowerScan']
     sextantScan = request.files['sextantScan']
+    if upperScan and lowerScan and sextantScan:
+         print("All files are present")
 
     result = {'result': ''}
     crsr = conn.cursor()
