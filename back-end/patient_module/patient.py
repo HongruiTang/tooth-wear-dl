@@ -84,10 +84,6 @@ def add_patient():
     upperScan = request.files['upperScan']
     lowerScan = request.files['lowerScan']
     sextantScan = request.files['sextantScan']
-    if upperScan and lowerScan and sextantScan:
-         print("All files are present")
-    else:
-         print("One or more files are missing")
 
     result = {'result': ''}
     crsr = conn.cursor()
@@ -145,4 +141,7 @@ def view():
     crsr.execute(toExecute, {"id": patientID})
 
     upper_file, lower_file = crsr.fetchall()[0]
+    upper_file = base64.b64encode(upper_file).decode('utf-8')
+    lower_file = base64.b64encode(lower_file).decode('utf-8')
+
     return {'upper': upper_file, 'lower': lower_file}
