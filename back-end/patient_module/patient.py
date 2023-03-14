@@ -84,6 +84,7 @@ def add_patient():
     upperScan = request.files['upperScan']
     lowerScan = request.files['lowerScan']
     sextantScan = request.files['sextantScan']
+    print(upperScan)
 
     result = {'result': ''}
     crsr = conn.cursor()
