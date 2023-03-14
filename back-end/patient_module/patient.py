@@ -81,9 +81,9 @@ def add_patient():
     snoringHabit = data['snoringHabit']
     exercise = data['exercise']
     drugUse = data['drugUse']
-    upperScan = json.dumps(data['upperScan']).encode('utf-8')
-    lowerScan = json.dumps(data['lowerScan']).encode('utf-8')
-    sextantScan = json.dumps(data['sextantScan']).encode('utf-8')
+    upperScan = data['upperScan']['file']
+    lowerScan = data['lowerScan']['file']
+    sextantScan = data['sextantScan']['file']
 
     result = {'result': ''}
     crsr = conn.cursor()
@@ -141,6 +141,4 @@ def view():
     crsr.execute(toExecute, {"id": patientID})
 
     upper_file, lower_file = crsr.fetchall()[0]
-    upper_file = json.loads(upper_file.decode('utf-8'))
-    lower_file = json.loads(lower_file.decode('utf-8'))
     return {'upper': upper_file, 'lower': lower_file}
