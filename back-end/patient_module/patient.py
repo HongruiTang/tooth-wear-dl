@@ -91,7 +91,7 @@ def add_patient():
 
     result = {'result': ''}
     crsr = conn.cursor()
-    if not crsr.execute('INSERT INTO Patients (PATIENT_NAME, PATIENT_AGE, PATIENT_OCCUPATION, PATIENT_MEDICAL_HISTORY, PATIENT_PAIN_COMPLAINT, PATIENT_FINANCIAL_RESOURCES, PATIENT_BRUSHING_METHOD, PATIENT_BRUSHING_FREQUENCY,PATIENT_BRUSHING_TIMING, PATIENT_ALCOHOL_INTAKE, PATIENT_STRESS_LEVEL, PATIENT_SLEEP_APNOEA, PATIENT_SNORING_HABIT, PATIENT_EXERCISE, PATIENT_DRUG_USE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (name, age, occupation, medicalHistory, painComplaint, financialResources, brushingMethod, brushingFrequency, brushingTiming, alocholIntake, stressLevel, sleepApnoea, snoringHabit, exercise, drugUse)):
+    if not crsr.execute('INSERT INTO Patients (PATIENT_NAME, PATIENT_AGE, PATIENT_OCCUPATION, PATIENT_MEDICAL_HISTORY, PATIENT_PAIN_COMPLAINT, PATIENT_FINANCIAL_RESOURCES, PATIENT_BRUSHING_METHOD, PATIENT_BRUSHING_FREQUENCY,PATIENT_BRUSHING_TIMING, PATIENT_ALCOHOL_INTAKE, PATIENT_STRESS_LEVEL, PATIENT_SLEEP_APNOEA, PATIENT_SNORING_HABIT, PATIENT_EXERCISE, PATIENT_DRUG_USE, PATIENT_UPPER_JAW_SCAN, PATIENT_LOWER_JAW_SCAN, PATIENT_SEXTANT_SCAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (name, age, occupation, medicalHistory, painComplaint, financialResources, brushingMethod, brushingFrequency, brushingTiming, alocholIntake, stressLevel, sleepApnoea, snoringHabit, exercise, drugUse, upperScan, lowerScan, sextantScan)):
         result = {'result': 'fail'}
     else:
         conn.commit()
