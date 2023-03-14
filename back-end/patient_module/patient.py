@@ -64,8 +64,7 @@ def main(dbFolder):
 @patient_bp.route('/add', methods=['POST'])
 def add_patient():
     conn = create_connection(dbFolder)
-    data = request.json
-    print(data)
+    data = json.loads(request.form['json'])
 
     name = data['name']
     age = data['age']
@@ -82,16 +81,13 @@ def add_patient():
     snoringHabit = data['snoringHabit']
     exercise = data['exercise']
     drugUse = data['drugUse']
-    # upperScan = data['upperScan']['file']
-    # lowerScan = data['lowerScan']['file']
-    # sextantScan = data['sextantScan']['file']
-    # upperScan = request.files['upperScan']
-    # lowerScan = request.files['lowerScan']
-    # sextantScan = request.files['sextantScan']
-    # if upperScan and lowerScan and sextantScan:
-    #      print("All files are present")
-    # else:
-    #      print("One or more files are missing")
+    upperScan = request.files['upperScan']
+    lowerScan = request.files['lowerScan']
+    sextantScan = request.files['sextantScan']
+    if upperScan and lowerScan and sextantScan:
+         print("All files are present")
+    else:
+         print("One or more files are missing")
 
     result = {'result': ''}
     crsr = conn.cursor()
