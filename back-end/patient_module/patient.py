@@ -81,9 +81,12 @@ def add_patient():
     snoringHabit = data['snoringHabit']
     exercise = data['exercise']
     drugUse = data['drugUse']
-    upperScan = data['upperScan']['file']
-    lowerScan = data['lowerScan']['file']
-    sextantScan = data['sextantScan']['file']
+    # upperScan = data['upperScan']['file']
+    # lowerScan = data['lowerScan']['file']
+    # sextantScan = data['sextantScan']['file']
+    upperScan = request.files['upperScan']
+    lowerScan = request.files['lowerScan']
+    sextantScan = request.files['sextantScan']
 
     result = {'result': ''}
     crsr = conn.cursor()
