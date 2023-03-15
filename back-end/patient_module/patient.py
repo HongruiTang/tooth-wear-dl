@@ -107,7 +107,7 @@ def delete_patient():
 @patient_bp.route('/number', methods=['GET'])
 def get_patient_number():
     conn = create_connection(dbFolder)
-    toExecute = "SELECT MAX(PATIENT_ID) FROM Patients"
+    toExecute = "SELECT COUNT(*) FROM Patients"
     crsr = conn.cursor()
     crsr.execute(toExecute)
 
