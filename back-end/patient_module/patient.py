@@ -102,6 +102,7 @@ def delete_patient():
     crsr = conn.cursor()
     crsr.execute(toExecute, {"id": patientID})
     conn.commit()
+    return {'result': 'success'}
         
 
 @patient_bp.route('/number', methods=['GET'])
