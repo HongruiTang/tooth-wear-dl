@@ -20,14 +20,17 @@ def create_connection(db_file):
 def predict():
     result = {}
     if request.method == 'POST':
-        patientID = request.files['id']
+        patientID = request.json['id']
         conn = create_connection(dbFolder)
         toExecute = "SELECT PATIENT_SEXTANT_SCAN FROM Patients WHERE PATIENT_ID = :id"
         crsr = conn.cursor()
         crsr.execute(toExecute, {"id": patientID})
         sextant = crsr.fetchall()[0]
+
+        with open('prediction.ply', 'wb') as f:
+            f.write(sextant[0])
         
-        plydata = PlyData.read(sextant)
+        plydata = PlyData.read('prediction.ply')
         label = get_prediction(plydata)
         result =  {'result': 'Your tooth wear grade is: {}'.format(label)}
     return result
