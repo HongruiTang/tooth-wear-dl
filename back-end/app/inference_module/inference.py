@@ -3,6 +3,7 @@ from plyfile import PlyData
 from inference_module.main import get_prediction
 import sqlite3
 from sqlite3 import Error
+import os
 
 inference_bp = Blueprint('inference', __name__)
 
@@ -19,7 +20,7 @@ def create_connection(db_file):
 @inference_bp.route('/predict', methods=['POST'])
 def predict():
     result = {}
-    if request.method == 'POST':
+    if request.json['id'] is not None and request.json['id'] != '':
         patientID = request.json['id']
         conn = create_connection(dbFolder)
         toExecute = "SELECT PATIENT_SEXTANT_SCAN FROM Patients WHERE PATIENT_ID = :id"
@@ -31,6 +32,9 @@ def predict():
             f.write(sextant[0])
         
         plydata = PlyData.read('prediction.ply')
+        os.remove('prediction.ply')
         label = get_prediction(plydata)
         result =  {'result': 'Your tooth wear grade is: {}'.format(label)}
+    else:
+        result = {'result': 'fail'}
     return result
