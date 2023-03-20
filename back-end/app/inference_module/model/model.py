@@ -163,20 +163,17 @@ class PointNetReg(nn.Module):
         self.feat = PointNetfeat(global_feat=True, feature_transform=feature_transform)
         self.fc1 = nn.Linear(1024, 512)
         self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 128)
-        self.fc4 = nn.Linear(128, 1)
+        self.fc3 = nn.Linear(256, 1)
         self.dropout = nn.Dropout(p=0.3)
         self.bn1 = nn.BatchNorm1d(512)
         self.bn2 = nn.BatchNorm1d(256)
-        self.bn3 = nn.BatchNorm1d(128)
         self.relu = nn.ReLU()
 
     def forward(self, x):
         x, trans, trans_feat = self.feat.forward_1(x)
         x = F.relu(self.bn1(self.fc1(x)))
-        x = F.relu(self.bn2(self.fc2(x)))
-        x = F.relu(self.bn3(self.dropout(self.fc3(x))))
-        x = self.fc4(x)
+        x = F.relu(self.bn2(self.dropout(self.fc2(x))))
+        x = self.fc3(x)
         return x, trans, trans_feat
 
 # segmentation
