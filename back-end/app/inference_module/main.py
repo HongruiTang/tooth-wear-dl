@@ -8,7 +8,7 @@ N_POINTS = 2048
 def get_prediction(plydata):
     # Load the trained model 
     model = PointNetReg(feature_transform = False)
-    model.load_state_dict(torch.load('inference_module/trained_models/cls_model_49.pth', map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load('inference_module/trained_models/cls_model_99.pth', map_location=torch.device('cpu')))
 
     pts = np.vstack([plydata['vertex']['x'], plydata['vertex']['y'], plydata['vertex']['z']]).T
     choice = np.random.choice(len(pts), N_POINTS, replace=True)
