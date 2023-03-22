@@ -72,7 +72,7 @@ class TestPatient(unittest.TestCase):
         for patient in patient_list:
             id.append(patient[0])
 
-        data = {"id": id[0]}
+        data = {"id": id[-1]}
         response = requests.post('http://20.127.200.67:8080/patient/delete', json=data)
 
         patient_num_after = requests.get('http://20.127.200.67:8080/patient/number').json()['num']
