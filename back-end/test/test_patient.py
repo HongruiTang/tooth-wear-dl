@@ -2,12 +2,16 @@ import requests
 import unittest
 import base64
 import json
+import os
 
 
 class TestPatient(unittest.TestCase):
 
-    def test_patient_add(self):
-        with open('JawScan_1.ply', 'rb') as f:
+    def test_add_patient(self):
+        patient_num_before = requests.get('http://20.127.200.67:8080/patient/number').json()['num']
+        jawPath = os.path.dirname(os.path.abspath(__file__)) + "/JawScan_1.ply"
+
+        with open(jawPath, 'rb') as f:
             scan = f.read()
 
         payload = {
@@ -38,8 +42,9 @@ class TestPatient(unittest.TestCase):
 
     def test_delete_patient(self):
         patient_num_before = requests.get('http://20.127.200.67:8080/patient/number').json()['num']
+        jawPath = os.path.dirname(os.path.abspath(__file__)) + "/JawScan_1.ply"
 
-        with open('back-end/test/JawScan_1.ply', 'rb') as f:
+        with open(jawPath, 'rb') as f:
             scan = f.read()
 
         payload = {
