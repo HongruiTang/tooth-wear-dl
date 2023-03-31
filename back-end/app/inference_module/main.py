@@ -8,7 +8,7 @@ N_POINTS = 2048
 def get_prediction(plydata):
     # Load the trained model 
     model = PointNetReg(feature_transform = True)
-    model.load_state_dict(torch.load('inference_module/trained_models/cls_model_99.pth', map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load('inference_module/trained_models/0_cls_model_249.pth', map_location=torch.device('cpu')))
 
     pts = np.vstack([plydata['vertex']['x'], plydata['vertex']['y'], plydata['vertex']['z']]).T
     choice = np.random.choice(len(pts), N_POINTS, replace=True)
@@ -34,7 +34,7 @@ def get_prediction(plydata):
         label = 2
     elif label >= 2.5 and label < 3.5:
         label = 3
-    elif label >= 3.5 and label < 4.5:
+    elif label >= 3.5:
         label = 4
 
     return label
